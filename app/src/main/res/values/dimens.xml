@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="symbol_main" type="dimen" format="float">0.25</item>
+    <item name="full_name_main" type="dimen" format="float">0.5</item>
+    <item name="price_main" type="dimen" format="float">0.25</item>
+</resources>

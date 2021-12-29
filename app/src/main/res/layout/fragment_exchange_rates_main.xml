@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="exchangeRatesVM"
+            type="zaroffe.mateusz.nbpdemo.ui.main.exchangeRates.ExchangeRatesViewModel"
+            />
+        <import type="android.text.TextUtils" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey">
+
+        <TextView
+            android:id="@+id/fragmentExchangeRatesSymbolTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="0dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:elevation="8dp"
+            android:text="@string/symbol"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="@dimen/symbol_main" />
+
+        <TextView
+            android:id="@+id/fragmentExchangeRatesNameTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintWidth_percent="@dimen/full_name_main"
+            android:text="@string/full_name"
+            app:layout_constraintEnd_toStartOf="@+id/fragmentExchangeRatesValueTxt"
+            app:layout_constraintStart_toEndOf="@+id/fragmentExchangeRatesSymbolTxt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragmentExchangeRatesValueTxt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/currency_price_pln"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="@dimen/price_main" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/fragmentExchangeRatesLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{exchangeRatesVM.state.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/fragmentExchangeRatesSwipeMainList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            app:onRefreshListener="@{()->exchangeRatesVM.refreshData()}"
+            app:refreshing="@{exchangeRatesVM.state.refreshing}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fragmentExchangeRatesNameTxt">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragmentExchangeRatesMainList"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:exchangeRates="@{exchangeRatesVM.state.exchangeRates}"
+                android:visibility="@{exchangeRatesVM.state.hasExchangeRates}"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

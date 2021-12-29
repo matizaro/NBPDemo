@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/exchangeRatesFragment"
+    android:id="@+id/nav_graph_main">
+    <fragment
+        android:id="@+id/exchangeRatesFragment"
+        android:name="zaroffe.mateusz.nbpdemo.ui.main.exchangeRates.ExchangeRatesFragment"
+        tools:layout="@layout/fragment_exchange_rates_main" >
+        <action
+            android:id="@+id/action_exchangeRatesFragment_to_exchangeRateDetailsFragment"
+            app:destination="@id/exchangeRateDetailsFragment">
+            <argument
+                android:name="code"
+                app:argType="string"/>
+            <argument
+                android:name="currency"
+                app:argType="string"/>
+            <argument
+                android:name="tableType"
+                app:argType=".network.api.ETableType" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/exchangeRateDetailsFragment"
+        android:name="zaroffe.mateusz.nbpdemo.ui.main.exchangeRateDetails.ExchangeRateDetailsFragment"
+        tools:layout="@layout/fragment_exchange_rates_main" >
+        <argument
+            android:name="code"
+            app:argType="string" />
+        <argument
+            android:name="currency"
+            app:argType="string"/>
+        <argument
+            android:name="tableType"
+            app:argType=".network.api.ETableType" />
+    </fragment>
+
+</navigation>

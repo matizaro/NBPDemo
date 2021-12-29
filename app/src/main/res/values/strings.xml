@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NBPDemo</string>
+    <string name="full_name">Full currency name</string>
+    <string name="currency_price_pln">Price (PLN)</string>
+    <string name="symbol">Symbol</string>
+    <string name="request_date_formatter">yyyy-MM-dd</string>
+    <string name="symbol_details">Symbol: %s</string>
+    <string name="currency_name_details">Full Name: %s</string>
+    <string name="date">Date</string>
+</resources>
