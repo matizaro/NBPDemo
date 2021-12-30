@@ -18,7 +18,6 @@ object RecyclerUtils {
             it
         }
 
-
     abstract class UpdatableAdapter<VH: RecyclerView.ViewHolder, DATA>: RecyclerView.Adapter<VH>() {
         abstract fun setData(newList: List<DATA>)
     }

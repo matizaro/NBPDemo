@@ -59,4 +59,5 @@ class ExchangeRatesFragment: BaseFragment<ExchangeRatesViewModel>() {
         ) = items[index]
             .symbol.getOrNull(0)?.toString() ?: ""
     }
+
 }

@@ -10,4 +10,5 @@ class FragmentModule {
     @PerFragment
     @Provides
     fun providesDisposable() = CompositeDisposable()
+
 }

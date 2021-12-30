@@ -17,7 +17,7 @@ class GetMidPricesUseCase @Inject constructor(private val api: NBPApi) {
         (aTable.ratesWithTableType() +
                 bTable.ratesWithTableType())
             .sortedBy { it.first.code }
-    }.delay(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
+    }.subscribeOn(Schedulers.io())
 
     private fun PricesResponse.ratesWithTableType() =
         map { table -> table.rates.map { it to table.table } }.flatten()

@@ -40,4 +40,5 @@ class ExchangeRatesAdapter(items: List<Currency>)
     }
 
     override fun getItemCount() = currencies.size
+
 }

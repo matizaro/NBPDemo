@@ -95,5 +95,7 @@ class ExchangeRateDetailsViewModel @Inject constructor(
             )
 
         }
+
     }
+
 }

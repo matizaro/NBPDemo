@@ -40,4 +40,5 @@ class DayPricesAdapter(items: List<DayPrice>)
     }
 
     override fun getItemCount() = dayPrices.size
+
 }

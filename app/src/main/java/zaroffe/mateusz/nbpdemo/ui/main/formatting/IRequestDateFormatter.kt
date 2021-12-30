@@ -10,11 +10,12 @@ interface IRequestDateFormatter {
     fun formatDate(date: OffsetDateTime): String
 }
 
-class RequestDateFormatter @Inject constructor(private val resourcesProviderWrapper: ResourcesProviderWrapper): IRequestDateFormatter {
+class RequestDateFormatter @Inject constructor(resourcesProviderWrapper: ResourcesProviderWrapper): IRequestDateFormatter {
 
     private val pattern = resourcesProviderWrapper.getString(R.string.request_date_formatter)
 
     override fun formatDate(date: OffsetDateTime): String {
         return date.format(DateTimeFormatter.ofPattern(pattern))
     }
+
 }

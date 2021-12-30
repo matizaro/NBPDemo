@@ -29,5 +29,7 @@ class MainActivityModule {
         @PerActivity
         @Binds
         fun bindsIErrorStateHandler(handler: ErrorStateHandler): IErrorStateHandler
+
     }
+
 }

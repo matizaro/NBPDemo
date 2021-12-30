@@ -6,9 +6,7 @@ import zaroffe.mateusz.nbpdemo.network.api.ETableType
 import javax.inject.Inject
 import javax.inject.Provider
 
-class ExchangeRatesNavigator constructor(
-    private val navController: Provider<NavController>
-    ) {
+class ExchangeRatesNavigator constructor(private val navController: Provider<NavController>) {
 
     fun navigateTo(destination: ExchangeRatesDestinations) {
         (destination as? ExchangeRatesDestinations.Details)?.let {
@@ -28,4 +26,5 @@ class ExchangeRatesNavigator constructor(
             val tableType: ETableType
         ):ExchangeRatesDestinations()
     }
+
 }

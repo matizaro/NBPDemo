@@ -8,7 +8,9 @@ import javax.inject.Provider
 
 @Module
 class ExchangeRatesFragmentModule {
+
     @Provides
     @PerFragment
     fun provideExchangeRatesNavigator(navController: Provider<NavController>) = ExchangeRatesNavigator(navController)
+
 }
