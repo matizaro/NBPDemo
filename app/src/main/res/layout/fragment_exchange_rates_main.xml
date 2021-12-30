@@ -56,17 +56,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="@dimen/price_main" />
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/fragmentExchangeRatesLoading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="@{exchangeRatesVM.state.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/fragmentExchangeRatesSwipeMainList"
             android:layout_width="0dp"
@@ -87,6 +76,17 @@
                 app:exchangeRates="@{exchangeRatesVM.state.exchangeRates}"
                 android:visibility="@{exchangeRatesVM.state.hasExchangeRates}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/fragmentExchangeRatesLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="@{exchangeRatesVM.state.loading}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

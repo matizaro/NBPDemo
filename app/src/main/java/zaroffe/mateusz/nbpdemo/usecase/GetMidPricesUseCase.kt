@@ -5,6 +5,7 @@ import io.reactivex.schedulers.Schedulers
 import zaroffe.mateusz.nbpdemo.network.api.ETableType
 import zaroffe.mateusz.nbpdemo.network.api.NBPApi
 import zaroffe.mateusz.nbpdemo.network.responses.prices.PricesResponse
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GetMidPricesUseCase @Inject constructor(private val api: NBPApi) {
@@ -13,12 +14,12 @@ class GetMidPricesUseCase @Inject constructor(private val api: NBPApi) {
         api.getCurrentMidPriceForTableType(ETableType.A),
         api.getCurrentMidPriceForTableType(ETableType.B)) {
         aTable, bTable ->
-        (aTable.ratesWithTableType(ETableType.A) +
-                bTable.ratesWithTableType(ETableType.B))
+        (aTable.ratesWithTableType() +
+                bTable.ratesWithTableType())
             .sortedBy { it.first.code }
-    }.subscribeOn(Schedulers.newThread())
+    }.delay(5, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
 
-    private fun PricesResponse.ratesWithTableType(tableType: ETableType) =
-        map { it.rates }.flatten().map { it to tableType }
+    private fun PricesResponse.ratesWithTableType() =
+        map { table -> table.rates.map { it to table.table } }.flatten()
 
 }

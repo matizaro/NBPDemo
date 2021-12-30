@@ -19,32 +19,37 @@ class ExchangeRateDetailsViewModel @Inject constructor(
     private val getExchangeRatesFromLast2Weeks: GetExchangeRatesFromLast2WeeksUseCase,
     private val currencyFormatting: ICurrencyFormatting,
     disposable: CompositeDisposable
-): BaseViewModel(disposable) {
+) : BaseViewModel(disposable) {
 
     private val _state = MutableLiveData<VMExchangeRateDetailsState>()
     val state: LiveData<VMExchangeRateDetailsState> = _state
 
     fun loadData(code: String, currency: String, tableType: ETableType) {
         _state.value = VMExchangeRateDetailsState(
-            code, currency, emptyList(),true
+            code, currency, emptyList(), true
         )
         getExchangeRatesFromLast2Weeks.execute(code, tableType)
+            .map(::toVMExchangeRateDetailsState)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::onGetExchangeRatesSuccess) { onGetExchangeRatesFailure(code, currency, it) }
+            .subscribe(::onGetExchangeRatesSuccess) {
+                onGetExchangeRatesFailure(
+                    code,
+                    currency,
+                    it
+                )
+            }
             .toDispose()
     }
 
-    private fun onGetExchangeRatesSuccess(
-        exchangeIntervalResponse: ExchangeIntervalResponse
-    ) {
+    private fun toVMExchangeRateDetailsState(exchangeIntervalResponse: ExchangeIntervalResponse): VMExchangeRateDetailsState {
 
-        val currentMidRate = if(exchangeIntervalResponse.rates.size > 1) {
+        val currentMidRate = if (exchangeIntervalResponse.rates.size > 1) {
             exchangeIntervalResponse.rates[0].mid
         } else {
             null
         }
 
-        _state.value = VMExchangeRateDetailsState(
+        return VMExchangeRateDetailsState(
             exchangeIntervalResponse.code,
             exchangeIntervalResponse.currency,
             exchangeIntervalResponse.rates.map { rate ->
@@ -55,18 +60,22 @@ class ExchangeRateDetailsViewModel @Inject constructor(
                         shouldWarn(it, rate)
                     } ?: false
                 )
-            },true
+            }, false
         )
     }
 
-    private fun shouldWarn(currentMidPrice: Double, rate: Rate) : Boolean {
+    private fun onGetExchangeRatesSuccess(state: VMExchangeRateDetailsState) {
+        _state.value = state
+    }
+
+    private fun shouldWarn(currentMidPrice: Double, rate: Rate): Boolean {
         return rate.mid < WARNING_RATIO_LOWER * currentMidPrice
                 || rate.mid > WARNING_RATIO_UPPER * currentMidPrice
     }
 
     private fun onGetExchangeRatesFailure(code: String, currency: String, throwable: Throwable) {
-        _state.value = _state.value?.copy(errorMsg = throwable.message)
-            ?: VMExchangeRateDetailsState(code,currency, emptyList(),true)
+        _state.value = _state.value?.copy(errorMsg = throwable.message, isLoading = false)
+            ?: VMExchangeRateDetailsState(code, currency, emptyList(), false)
     }
 
     companion object {
@@ -78,11 +87,12 @@ class ExchangeRateDetailsViewModel @Inject constructor(
         @BindingAdapter("isWarn")
         fun shouldShowWarnColor(textView: TextView, isWarn: Boolean) {
             textView.setTextColor(
-                if(isWarn) {
+                if (isWarn) {
                     textView.context.getColor(R.color.red)
                 } else {
                     textView.context.getColor(R.color.black)
-                })
+                }
+            )
 
         }
     }

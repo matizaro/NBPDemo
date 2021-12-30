@@ -1,36 +1,26 @@
 package zaroffe.mateusz.nbpdemo.usecase
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import okhttp3.internal.connection.Exchange
-import zaroffe.mateusz.nbpdemo.R
-import zaroffe.mateusz.nbpdemo.app.ResourcesProviderWrapper
 import zaroffe.mateusz.nbpdemo.network.api.ETableType
 import zaroffe.mateusz.nbpdemo.network.api.NBPApi
-import zaroffe.mateusz.nbpdemo.network.responses.interval.ExchangeIntervalResponse
+import zaroffe.mateusz.nbpdemo.ui.main.formatting.IRequestDateFormatter
 import java.time.OffsetDateTime
-import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class GetExchangeRatesFromLast2WeeksUseCase @Inject constructor(
     private val api: NBPApi,
-    private val midnightDateEmitter: Observable<OffsetDateTime>,
-    private val resourcesProviderWrapper: ResourcesProviderWrapper
+    private val requestDateFormatter: IRequestDateFormatter
 ) {
     fun execute(code: String, tableType: ETableType) =
-        midnightDateEmitter.flatMapSingle {
-            val today = it.formatDate()
-            val twoWeeksAgo = it.minusWeeks(2).formatDate()
+        Single.just(OffsetDateTime.now()).flatMap {
+            val today = requestDateFormatter.formatDate(it)
+            val twoWeeksAgo = requestDateFormatter.formatDate(it.minusWeeks(2))
             api.getExchangeRatesForInterval(tableType, code, twoWeeksAgo, today)
         }.map {
-            ExchangeIntervalResponse(
-                it.code,
-                it.currency,
-                it.rates.reversed(),
-                it.table
-            )
-        }.subscribeOn(Schedulers.newThread())
-
-    private fun OffsetDateTime.formatDate() = this.format(DateTimeFormatter.ofPattern(resourcesProviderWrapper.getString(R.string.request_date_formatter)))
+            it.copy(rates = it.rates.reversed())
+        }.subscribeOn(Schedulers.io())
 
 }

@@ -7,7 +7,6 @@ import dagger.android.support.AndroidSupportInjectionModule
 import zaroffe.mateusz.nbpdemo.app.NBPApplication
 import zaroffe.mateusz.nbpdemo.di.activity.ActivityBuildersModule
 import zaroffe.mateusz.nbpdemo.di.network.NetworkModule
-import zaroffe.mateusz.nbpdemo.di.time.TimeModule
 import javax.inject.Singleton
 
 @Singleton
@@ -16,7 +15,6 @@ import javax.inject.Singleton
     AndroidInjectionModule::class,
     ActivityBuildersModule::class,
     NetworkModule::class,
-    TimeModule::class,
     ResourcesModule::class
 ])
 interface AppComponent: AndroidInjector<NBPApplication> {

@@ -1,5 +1,6 @@
 package zaroffe.mateusz.nbpdemo.ui.main.exchangeRates
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -58,7 +59,8 @@ class ExchangeRatesViewModel @Inject constructor(
         _state.value = state
     }
 
-    private fun currencyPressed(code: String, currency: String, tableType: ETableType) {
+    @VisibleForTesting
+    fun currencyPressed(code: String, currency: String, tableType: ETableType) {
         navigator.navigateTo(ExchangeRatesNavigator.ExchangeRatesDestinations.Details(
             code, currency, tableType
         ))
