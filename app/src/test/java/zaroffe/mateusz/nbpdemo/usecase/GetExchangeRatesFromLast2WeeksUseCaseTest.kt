@@ -2,6 +2,8 @@ package zaroffe.mateusz.nbpdemo.usecase
 
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import io.mockk.verify
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
@@ -40,7 +42,9 @@ class GetExchangeRatesFromLast2WeeksUseCaseTest : BaseUnitTest() {
         //given
         val exchangeIntervalResponseATable =
             ExchangeIntervalResponseMocks.exchangeIntervalResponseATable
+        mockkStatic(OffsetDateTime::class)
         val now = OffsetDateTime.now()
+        every { OffsetDateTime.now() } returns now
         val startDate = "startDate"
         val endDate = "endDate"
         every {
@@ -71,6 +75,7 @@ class GetExchangeRatesFromLast2WeeksUseCaseTest : BaseUnitTest() {
                 endDate
             )
         }
+        unmockkStatic(OffsetDateTime::class)
 
     }
 
